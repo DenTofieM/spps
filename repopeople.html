@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Github User</title>
+    <style>
+		h1 {
+			text-align: center;
+		}
+
+		button{
+			font-size: 20px;
+			background-color: burlywood;
+			padding: 10px;
+		}
+
+		#show-users{
+			width: 80%;
+			margin: auto;
+			display: block;
+		}
+
+		#show-users div{
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 20vh;
+			margin-bottom: 3%;
+			background-color: rgb(230, 230, 230);
+		}
+
+		#show-users div ul li{
+			list-style: none;
+			font-size: 25px;
+		}
+		#show-users div ul{
+			flex-basis: 70%;
+		}
+
+		#show-users img{
+			height: 100px;
+			width: 100px;
+			border-radius: 50%;
+			padding: 3%;
+		}
+	</style>
+</head>
+<body>
+
+    <center><button type="submit" class="load">Load Github Users</button></center>
+    
+    <h1>Github Users</h1>
+    <section id="show-users"></section>
+
+
+    <script>
+        const LoadButton = document.querySelector(".load");
+
+        LoadButton.onclick = ()=>{
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET','https://api.github.com/users');
+            xhr.onload = ()=>{
+                if(xhr.status == 200){    
+                    var people = JSON.parse(xhr.response)
+                    var output= "";
+                    for(var i in people){
+                    let out = 
+                    '<div>' +
+                    '<img src="'+people[i].avatar_url+'>' +
+                    '<ul>' +
+                    '<li>ID: '+people[i].id+'</li>' +
+                    '<li>Login: '+people[i].login+'</li>' +
+                    '<li>Repos: '+people[i].repos_url + '</li>'+
+                    '</ul>' +
+                    '</div>';
+
+                    output += out;
+                    }
+                    document.getElementById("show-users").innerHTML = output;
+                    //console.log(output);
+                }
+            }
+
+            xhr.send();
+        } 
+    </script>
+    
+</body>
+</html>
